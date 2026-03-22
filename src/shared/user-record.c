@@ -417,28 +417,6 @@ static int json_dispatch_filename_or_path(const char *name, sd_json_variant *var
         return 0;
 }
 
-static int json_dispatch_birth_date(const char *name, sd_json_variant *variant, sd_json_dispatch_flags_t flags, void *userdata) {
-        struct tm *ret = ASSERT_PTR(userdata);
-        const char *s;
-        int r;
-
-        if (sd_json_variant_is_null(variant)) {
-                *ret = BIRTH_DATE_UNSET;
-                return 0;
-        }
-
-        if (!sd_json_variant_is_string(variant))
-                return json_log(variant, flags, SYNTHETIC_ERRNO(EINVAL), "JSON field '%s' is not a string.", strna(name));
-
-        s = sd_json_variant_string(variant);
-
-        r = parse_birth_date(s, ret);
-        if (r < 0)
-                return json_log(variant, flags, r, "JSON field '%s' is not a valid ISO 8601 date (expected YYYY-MM-DD).", strna(name));
-
-        return 0;
-}
-
 static int json_dispatch_home_directory(const char *name, sd_json_variant *variant, sd_json_dispatch_flags_t flags, void *userdata) {
         char **s = userdata;
         const char *n;
