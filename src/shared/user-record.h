@@ -1,8 +1,6 @@
 /* SPDX-License-Identifier: LGPL-2.1-or-later */
 #pragma once
 
-#include <time.h>
-
 #include "sd-id128.h"
 
 #include "bitfield.h"
